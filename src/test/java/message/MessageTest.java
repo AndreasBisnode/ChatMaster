@@ -21,7 +21,7 @@ public class MessageTest {
 
         ChatMessage chatMessage = mapper.readValue(resourceAsStream, ChatMessage.class);
         assertEquals(chatMessage.getId().toString(), "some-generated-message-id");
-        assertEquals(chatMessage.getText(), "This is a message");
+        assertEquals(chatMessage.getText().toString(), "This is a message");
         assertEquals(chatMessage.getTimestamp().toString(), "2014-12-12T06:21:06.879+01:00[Europe/Stockholm]");
         assertEquals(chatMessage.getFrom().toString(), "id-of-the-sender");
         assertEquals(chatMessage.getTo().toString(), "id-of-the-recipient");
