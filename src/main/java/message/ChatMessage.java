@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by andgra on 2014-12-19.
  */
 public class ChatMessage implements Serializable {
-    @JsonUnwrapped private Id id;
+    private Id id;
     private String text;
     private Timestamp timestamp;
     private Id from;
@@ -27,8 +27,8 @@ public class ChatMessage implements Serializable {
         this.to = to;
 
     }
-    @JsonUnwrapped public Id getId() {
-        return id;
+    public String getId() {
+        return id.getId();
     }
 
     public String getText() {

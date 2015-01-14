@@ -2,7 +2,6 @@ package message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import java.io.Serializable;
 
@@ -24,7 +23,6 @@ public class Id implements Serializable{
     public String toString(){
         return id;
     }
-    @JsonUnwrapped
     public String getId(){
         return id;
     }
