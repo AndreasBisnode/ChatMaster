@@ -11,14 +11,14 @@ import java.io.Serializable;
  */
 public class ChatMessage implements Serializable {
     private Id id;
-    private String text;
+    private Text text;
     private Timestamp timestamp;
     private Id from;
     private Id to;
 
 
     @JsonCreator
-    public ChatMessage(@JsonProperty("id")Id id,@JsonProperty("text") String text, @JsonProperty("timestamp")
+    public ChatMessage(@JsonProperty("id")Id id,@JsonProperty("text") Text text, @JsonProperty("timestamp")
     Timestamp dateTime, @JsonProperty("from") Id from, @JsonProperty("to") Id to){
         this.id = id;
         this.text = text;
@@ -32,7 +32,7 @@ public class ChatMessage implements Serializable {
     }
 
     public String getText() {
-        return text;
+        return text.getText();
     }
 
     public Timestamp getTimestamp() {
@@ -46,4 +46,5 @@ public class ChatMessage implements Serializable {
     public Id getTo() {
         return to;
     }
+    // Frågor Hur fixa jackson utan getters och setters. Hur fungerar unwrapped
 }
