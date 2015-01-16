@@ -10,25 +10,27 @@ import java.io.Serializable;
  * Created by andgra on 2014-12-19.
  */
 public class ChatMessage implements Serializable {
-    private Id id;
-    private Text text;
-    private Timestamp timestamp;
-    private Id from;
-    private Id to;
+    private final Id id;
+    private final Text text;
+    private final Timestamp timestamp;
+    private final Id from;
+    private final Id to;
 
 
     @JsonCreator
-    public ChatMessage(@JsonProperty("id")Id id,@JsonProperty("text") Text text, @JsonProperty("timestamp")
+    public ChatMessage(@JsonProperty("id") String id,@JsonProperty("text") Text text, @JsonProperty("timestamp")
     Timestamp dateTime, @JsonProperty("from") Id from, @JsonProperty("to") Id to){
-        this.id = id;
+        this.id = new Id(id);
         this.text = text;
         this.timestamp = dateTime;
         this.from = from;
         this.to = to;
 
     }
-    public String getId() {
-        return id.getId();
+
+    @JsonUnwrapped
+    public Id getId() {
+        return id;
     }
 
     public String getText() {

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by andgra on 2015-01-14.
  */
 public class Text implements Serializable{
-    String text;
+    private final String text;
 
     @JsonCreator
     public Text(String text){

@@ -9,17 +9,14 @@ import java.io.Serializable;
  * Created by andgra on 2014-12-19.
  */
 public class Id implements Serializable{
-    String id;
+    private final String id;
 
 
     @JsonCreator
-    public Id(String id) {
+    public Id(@JsonProperty("id") String id) {
         this.id = id;
     }
-    @JsonCreator
-    public Id(@JsonProperty("id")Id id) {
-        this.id = id.toString();
-    }
+
     public String toString(){
         return id;
     }
