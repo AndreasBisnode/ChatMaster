@@ -1,54 +1,49 @@
 package messagebucket.message;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.ZonedDateTime;
 
 /**
  * Created by andgra on 2015-01-23.
  */
-public class ChatMessageComparable extends ChatMessage implements Comparable<ChatMessage> {
+public class ChatMessageComparable implements Comparable<ChatMessage> {
+    private ChatMessage host;
 
-    public ChatMessageComparable(@JsonProperty("id") String id, @JsonProperty("text") String text, @JsonProperty("timestamp") Timestamp dateTime, @JsonProperty("from") Id from, @JsonProperty("to") Id to) {
-        super(id, text, dateTime, from, to);
+    //Vad sägs om detta? Hur annars göra? inte immutable
+    public void defineHost(ChatMessage host){
+        this.host = host;
     }
 
+    @Override
+    public int compareTo(ChatMessage other) {
+        Timestamp thisTimeStamp = host.timestamp();
+        Timestamp thatTimeStamp = other.timestamp();
+        String thisZonedDateTimeString = thisTimeStamp.zonedDateTime();
+        String thatZonedDateTimeString = thatTimeStamp.zonedDateTime();
+        ZonedDateTime thisZonedDatetime = ZonedDateTime.parse(thisZonedDateTimeString);
+        ZonedDateTime thatZonedDatetime = ZonedDateTime.parse(thatZonedDateTimeString);
+
+        return (thisZonedDatetime.compareTo(thatZonedDatetime));
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ChatMessage that = (ChatMessage) o;
-
-        if (!this.from().equals(that.from())) return false;
-        if (!id().equals(that.id())) return false;
-        if (!text().equals(that.text())) return false;
-        if (!timestamp().equals(that.timestamp())) return false;
-        if (!to().equals(that.to())) return false;
-
+        if (!host.from().equals(that.from())) return false;
+        if (!host.id().equals(that.id())) return false;
+        if (!host.text().equals(that.text())) return false;
+        if (!host.timestamp().equals(that.timestamp())) return false;
+        if (!host.to().equals(that.to())) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id().hashCode();
-        result = 31 * result + text().hashCode();
-        result = 31 * result + timestamp().hashCode();
-        result = 31 * result + from().hashCode();
-        result = 31 * result + to().hashCode();
+        int result = host.id().hashCode();
+        result = 31 * result + host.text().hashCode();
+        result = 31 * result + host.timestamp().hashCode();
+        result = 31 * result + host.from().hashCode();
+        result = 31 * result + host.to().hashCode();
         return result;
-    }
-
-    public int compareTo(ChatMessage other) {
-        Timestamp thisTimeStamp = this.timestamp();
-        Timestamp thatTimeStamp = other.timestamp();
-
-        String thisZonedDateTimeString = thisTimeStamp.zonedDateTime();
-        String thatZonedDateTimeString = thatTimeStamp.zonedDateTime();
-
-        ZonedDateTime thisZonedDatetime = ZonedDateTime.parse(thisZonedDateTimeString);
-        ZonedDateTime thatZonedDatetime = ZonedDateTime.parse(thatZonedDateTimeString);
-
-        return (thisZonedDatetime.compareTo(thatZonedDatetime));
     }
 }
