@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 /**
  * Created by andgra on 2014-12-19.
  */
-public class ChatMessage extends implements Comparable<ChatMessage>{
+public class ChatMessage implements Comparable<ChatMessage>{
     private final ContentsAndId contentsAndId;
     private final Endpoints endpoints;
 
