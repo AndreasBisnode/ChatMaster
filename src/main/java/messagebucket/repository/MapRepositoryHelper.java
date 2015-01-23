@@ -15,7 +15,6 @@ public class MapRepositoryHelper {
     private final Map<String, ChatMessage> chatMessageMap;
 
     public MapRepositoryHelper(Map<String, ChatMessage> chatMessageMap) {
-
         this.chatMessageMap = chatMessageMap;
     }
     // Vad sägs om protected här

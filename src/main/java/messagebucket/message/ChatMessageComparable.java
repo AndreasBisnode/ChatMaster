@@ -24,6 +24,7 @@ public class ChatMessageComparable implements Comparable<ChatMessage> {
 
         return (thisZonedDatetime.compareTo(thatZonedDatetime));
     }
+    //har ej implementerat one dot per line
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,7 +37,7 @@ public class ChatMessageComparable implements Comparable<ChatMessage> {
         if (!host.to().equals(that.to())) return false;
         return true;
     }
-
+    //har ej implementerat one dot per line
     @Override
     public int hashCode() {
         int result = host.id().hashCode();
