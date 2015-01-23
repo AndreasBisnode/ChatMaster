@@ -2,10 +2,15 @@ package message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import message.ChatMessage;
+import messagebucket.message.ChatMessage;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,37 +18,55 @@ import static org.junit.Assert.assertEquals;
  * Created by andgra on 2014-12-19.
  */
 public class MessageTest {
-
+    private final ObjectMapper mapper = new ObjectMapper();
     @Test
     public void roundtripMessageTest() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
         InputStream resourceAsStream = getClass().getResourceAsStream("/message.json");
+        JsonNode originalJson = mapper.readTree(resourceAsStream);
+        ChatMessage chatMessage = mapper.readValue(originalJson.toString(), ChatMessage.class);
 
-        ChatMessage chatMessage = mapper.readValue(resourceAsStream, ChatMessage.class);
-        assertEquals(chatMessage.getId().toString(), "some-generated-message-id");
-        assertEquals(chatMessage.getText().toString(), "This is a message");
-        assertEquals(chatMessage.getTimestamp().toString(), "2014-12-12T06:21:06.879+01:00[Europe/Stockholm]");
-        assertEquals(chatMessage.getFrom().toString(), "id-of-the-sender");
-        assertEquals(chatMessage.getTo().toString(), "id-of-the-recipient");
+        assertEquals(chatMessage.id().toString(), "some-generated-message-id");
+        assertEquals(chatMessage.text().toString(), "This is a message");
+        assertEquals(chatMessage.timestamp().toString(), "2014-12-12T06:21:06.879+01:00[Europe/Stockholm]");
+        assertEquals(chatMessage.from().toString(), "id-of-the-sender");
+        assertEquals(chatMessage.to().toString(), "id-of-the-recipient");
 
-
-        //JsonNode jsonNode =
-        Writer strWriter = new StringWriter();
-        mapper.writeValue(strWriter, chatMessage);
-        String chatMessageJSON = strWriter.toString();
-        System.out.println("dd"+chatMessageJSON);
-        assertEquals(chatMessageJSON,"{\"id\":\"some-generated-message-id\",\"text\":\"This is a message\",\"timestamp\":{\"dateTime\":\"2014-12-12T06:21:06.879+01:00[Europe/Stockholm]\"},\"from\":{\"id\":\"id-of-the-sender\"},\"to\":{\"id\":\"id-of-the-recipient\"}}");
-        JsonNode node = mapper.readTree(chatMessageJSON);
-        assertEquals(node.get("id").toString(), "\"some-generated-message-id\"");
-        assertEquals(node.get("text").toString(), "\"This is a message\"");
-        assertEquals(node.get("timestamp").toString().trim(), "{" +
-                "\"dateTime\":\"2014-12-12T06:21:06.879+01:00[Europe/Stockholm]\"" +
-                "}".trim());
-        assertEquals(node.get("from").toString(),
-                "{\"id\":\"id-of-the-sender\"}");
-        assertEquals(node.get("to").toString(),
-               "{\"id\":\"id-of-the-recipient\"}");
+        String serializedJson = mapper.writeValueAsString(chatMessage);
+        JsonNode deSerializedJson = mapper.readTree(serializedJson);
+        assertEquals(originalJson, deSerializedJson);
 
     }
+    @Test
+    public void compareToTest() throws IOException {
+        InputStream resourceAsStreamLate = getClass().getResourceAsStream("/message2.json");
+        InputStream resourceAsStreamEarly = getClass().getResourceAsStream("/message3.json");
+        JsonNode originalJsonLate = mapper.readTree(resourceAsStreamLate);
+        JsonNode originalJsonEarly = mapper.readTree(resourceAsStreamEarly);
+        ChatMessage chatMessageLate = mapper.readValue(originalJsonLate.toString(), ChatMessage.class);
+        ChatMessage chatMessageEarly = mapper.readValue(originalJsonEarly.toString(), ChatMessage.class);
+
+        assert(chatMessageEarly.compareTo(chatMessageLate) == -1);
+        assert(chatMessageLate.compareTo(chatMessageEarly) == 1);
+        assert(chatMessageEarly.compareTo(chatMessageEarly) == 0);
+        List<ChatMessage> list = new ArrayList<ChatMessage>();
+        list.add(chatMessageLate);
+        list.add(chatMessageEarly);
+        assertEquals(list.get(0),chatMessageLate);
+        Collections.sort(list);
+        assertEquals(list.get(0), chatMessageEarly);
+    }
+    @Test
+    public void equalMessagesTest() throws IOException{
+        ChatMessage chatMessage1;
+        ChatMessage chatMessage2;
+        try(InputStream resourceAsStream = getClass().getResourceAsStream("/message.json")){
+            chatMessage1 = mapper.readValue(resourceAsStream, ChatMessage.class);
+        }
+        try(InputStream resourceAsStream = getClass().getResourceAsStream("/message.json")){
+            chatMessage2 = mapper.readValue(resourceAsStream, ChatMessage.class);
+        }
+        assertEquals(chatMessage1, chatMessage2);
+    }
+
 }
 
