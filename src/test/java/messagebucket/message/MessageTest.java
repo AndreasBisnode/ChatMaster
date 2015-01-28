@@ -1,13 +1,10 @@
-package message;
+package messagebucket.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import messagebucket.message.ChatMessage;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +22,8 @@ public class MessageTest {
         JsonNode originalJson = mapper.readTree(resourceAsStream);
         ChatMessage chatMessage = mapper.readValue(originalJson.toString(), ChatMessage.class);
 
-        assertEquals(chatMessage.id().toString(), "some-generated-message-id");
-        assertEquals(chatMessage.text().toString(), "This is a message");
+        assertEquals(chatMessage.id().toString(), "some-generated-messagebucket.message-id");
+        assertEquals(chatMessage.text().toString(), "This is a messagebucket.message");
         assertEquals(chatMessage.timestamp().toString(), "2014-12-12T06:21:06.879+01:00[Europe/Stockholm]");
         assertEquals(chatMessage.from().toString(), "id-of-the-sender");
         assertEquals(chatMessage.to().toString(), "id-of-the-recipient");
@@ -48,6 +45,7 @@ public class MessageTest {
         assert(chatMessageEarly.compareTo(chatMessageLate) == -1);
         assert(chatMessageLate.compareTo(chatMessageEarly) == 1);
         assert(chatMessageEarly.compareTo(chatMessageEarly) == 0);
+
         List<ChatMessage> list = new ArrayList<ChatMessage>();
         list.add(chatMessageLate);
         list.add(chatMessageEarly);
