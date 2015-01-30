@@ -3,6 +3,8 @@ package messagebucket.message;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Created by andgra on 2014-12-19.
  */
@@ -26,18 +28,16 @@ public class Id{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if(o instanceof Id){
 
-        Id id1 = (Id) o;
-
-        if (id != null ? !id.equals(id1.id) : id1.id != null) return false;
-
-        return true;
+            final Id id1 = (Id) o;
+            return Objects.equals(this.id(), id1.id());
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Objects.hash(id);
     }
 }

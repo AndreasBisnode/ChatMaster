@@ -3,6 +3,7 @@ package messagebucket.message;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 /**
  * Created by andgra on 2014-12-21.
@@ -24,19 +25,17 @@ public class Timestamp {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if(o instanceof Timestamp){
 
-        Timestamp timestamp = (Timestamp) o;
-
-        if (dateTime != null ? !dateTime.equals(timestamp.dateTime) : timestamp.dateTime != null) return false;
-
-        return true;
+            final Timestamp zonedDateTime1 = (Timestamp) o;
+            return Objects.equals(this.zonedDateTime(), zonedDateTime1.zonedDateTime());
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return dateTime != null ? dateTime.hashCode() : 0;
+        return dateTime.hashCode();
     }
 
 }

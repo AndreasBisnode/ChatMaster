@@ -2,35 +2,47 @@ package messagebucket.repository;
 
 import messagebucket.message.ChatMessage;
 import messagebucket.message.Id;
+import messagebucket.message.Timestamp;
 
+import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
  * Created by andgra on 2014-12-28.
  */
 public class ChatMessageRepositoryMap implements ChatMessageRepository {
-    private final Map<String, ChatMessage> chatMessageMap = new HashMap<String, ChatMessage>();
-    private final MapRepositoryHelper mapRepositoryHelper = new MapRepositoryHelper(chatMessageMap);
+    private final Map<String, ChatMessage> chatMessageMap = new HashMap<>();
     @Override
     public void save(ChatMessage chatMessage) {
         chatMessageMap.put(chatMessage.id().toString(), chatMessage);
     }
 
     @Override
-    public ChatMessage retrieveMessageById(String id) {
+    public ChatMessage retrieveMessageById(Id id) {
         return chatMessageMap.get(id);
     }
 
     @Override
-    public Collection<ChatMessage> retrieveMessages(String senderId, String recipientId) {
-        List <ChatMessage> messages = mapRepositoryHelper.retrieveMessagesFromRepository(Optional.ofNullable(senderId), recipientId);
-        Collections.sort(messages);
-        Collections.reverse(messages);
-        return messages;
+    public Collection<ChatMessage> retrieveMessages(Id channelId) {
+        return retrieveMessages(null, channelId);
     }
 
     @Override
-    public Collection<ChatMessage> retrieveMessages(String channelId) {
-        return retrieveMessages(null, channelId);
+    public Collection<ChatMessage> retrieveMessages(Id senderId, Id recipientId) {
+        List <ChatMessage> messages = MapRepositoryHelper.retrieveMessagesFromRepository(chatMessageMap, Optional.ofNullable(senderId.id()), recipientId.id());
+        Collections.sort(messages, new Comparator<ChatMessage>() {
+            @Override
+            public int compare(ChatMessage o1, ChatMessage o2) {
+                Timestamp thisTimeStamp = o1.timestamp();
+                Timestamp thatTimeStamp = o2.timestamp();
+                String thisZonedDateTimeString = thisTimeStamp.zonedDateTime();
+                String thatZonedDateTimeString = thatTimeStamp.zonedDateTime();
+                ZonedDateTime thisZonedDatetime = ZonedDateTime.parse(thisZonedDateTimeString);
+                ZonedDateTime thatZonedDatetime = ZonedDateTime.parse(thatZonedDateTimeString);
+                return (thisZonedDatetime.compareTo(thatZonedDatetime));
+            }
+        });
+        Collections.reverse(messages);
+        return messages;
     }
 }

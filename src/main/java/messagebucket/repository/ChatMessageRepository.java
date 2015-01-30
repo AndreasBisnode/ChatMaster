@@ -12,9 +12,9 @@ import java.util.List;
 public interface ChatMessageRepository {
     void save(ChatMessage chatMessage);
 
-    ChatMessage retrieveMessageById(String id);
+    ChatMessage retrieveMessageById(Id id);
 
-    Collection<ChatMessage> retrieveMessages(String senderId, String recipientId);
+    Collection<ChatMessage> retrieveMessages(Id senderId, Id recipientId);
 
-    Collection<ChatMessage> retrieveMessages(String channelId);
+    Collection<ChatMessage> retrieveMessages(Id channelId);
 }

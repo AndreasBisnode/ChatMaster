@@ -3,6 +3,8 @@ package messagebucket.message;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Created by andgra on 2015-01-14.
  */
@@ -12,10 +14,11 @@ public class Text{
 
     @JsonCreator
     public Text(@JsonProperty("id") String text){
-        this.text = text;
+        this.text = Objects.requireNonNull(text);
     }
 
-    public String getText() {
+    @JsonProperty("text")
+    public String text() {
         return text;
     }
     public String toString(){
@@ -24,19 +27,15 @@ public class Text{
 
     @Override
     public boolean equals(Object o) {
+        if(o instanceof Text){
 
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Text text1 = (Text) o;
-
-        if (text != null ? !text.equals(text1.text) : text1.text != null) return false;
-
-        return true;
+            final Text text1 = (Text) o;
+            return Objects.equals(this.text(), text());
+        }
+        return false;
     }
-
     @Override
     public int hashCode() {
-        return text != null ? text.hashCode() : 0;
+        return Objects.hash(text);
     }
 }

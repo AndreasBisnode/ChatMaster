@@ -3,6 +3,7 @@ package messagebucket.repository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import messagebucket.message.ChatMessage;
+import messagebucket.message.Id;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,14 +41,14 @@ public class ChatMessageRepositoryTest {
 
 
 
-        List<ChatMessage> chatMessageListParticipants = (List<ChatMessage>) chatMessageRepository.retrieveMessages("id-of-the-sender", "id-of-the-recipient");
+        List<ChatMessage> chatMessageListParticipants = (List<ChatMessage>) chatMessageRepository.retrieveMessages(new Id("id-of-the-sender"), new Id("id-of-the-recipient"));
         assertEquals(chatMessageListParticipants.get(0), latestMessage);
         assertEquals(chatMessageListParticipants.get(1), middleMessage);
 
-        List<ChatMessage> chatMessageChannel = (List<ChatMessage>) chatMessageRepository.retrieveMessages("channelId_3");
+        List<ChatMessage> chatMessageChannel = (List<ChatMessage>) chatMessageRepository.retrieveMessages(new Id("channelId_3"));
         assertEquals(chatMessageChannel.get(0), oldestMessage);
 
-        assertEquals(chatMessageRepository.retrieveMessageById("messageId3"),oldestMessage);
+        assertEquals(chatMessageRepository.retrieveMessageById(new Id("messageId3")),oldestMessage);
 
 
     }
