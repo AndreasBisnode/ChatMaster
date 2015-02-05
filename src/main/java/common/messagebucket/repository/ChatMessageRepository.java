@@ -1,10 +1,9 @@
-package messagebucket.repository;
+package common.messagebucket.repository;
 
-import messagebucket.message.ChatMessage;
-import messagebucket.message.Id;
+import common.messagebucket.message.ChatMessage;
+import common.messagebucket.message.Id;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by andgra on 2014-12-28.

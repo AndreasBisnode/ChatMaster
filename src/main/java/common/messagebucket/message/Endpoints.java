@@ -1,25 +1,26 @@
-package messagebucket.message;
+/*
+package common.messagebucket.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-/**
- * Created by andgra on 2015-01-23.
- */
+
+
+
 public class Endpoints {
     private final Id from;
     private final Id to;
 
     @JsonCreator
-    public Endpoints(@JsonProperty("from")Id from,@JsonProperty("to") Id to) {
+    public Endpoints(@JsonProperty("from")final Id from,@JsonProperty("to") final Id to) {
         this.from = from;
         this.to = to;
     }
     @JsonProperty("from")
     public Id from(){
-        return from;
+        return this.from;
     }
 
     @JsonProperty("to")
@@ -27,7 +28,7 @@ public class Endpoints {
         return to;
     }
 
-    @Override
+ @Override
     public int hashCode() {
         return Objects.hash(from, to);
     }
@@ -41,4 +42,6 @@ public class Endpoints {
         }
         return false;
     }
+
 }
+*/

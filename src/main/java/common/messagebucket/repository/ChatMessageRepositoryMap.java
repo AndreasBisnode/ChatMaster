@@ -1,8 +1,8 @@
-package messagebucket.repository;
+package common.messagebucket.repository;
 
-import messagebucket.message.ChatMessage;
-import messagebucket.message.Id;
-import messagebucket.message.Timestamp;
+import common.messagebucket.message.ChatMessage;
+import common.messagebucket.message.Id;
+import common.messagebucket.message.Timestamp;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -19,7 +19,7 @@ public class ChatMessageRepositoryMap implements ChatMessageRepository {
 
     @Override
     public ChatMessage retrieveMessageById(Id id) {
-        return chatMessageMap.get(id);
+        return chatMessageMap.get(id.id());
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ChatMessageRepositoryMap implements ChatMessageRepository {
 
     @Override
     public Collection<ChatMessage> retrieveMessages(Id senderId, Id recipientId) {
-        List <ChatMessage> messages = MapRepositoryHelper.retrieveMessagesFromRepository(chatMessageMap, Optional.ofNullable(senderId.id()), recipientId.id());
+        List <ChatMessage> messages = MapRepositoryHelper.retrieveMessagesFromRepository(chatMessageMap, Optional.ofNullable(senderId), recipientId);
         Collections.sort(messages, new Comparator<ChatMessage>() {
             @Override
             public int compare(ChatMessage o1, ChatMessage o2) {

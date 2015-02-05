@@ -1,4 +1,4 @@
-package messagebucket.message;
+package common.messagebucket.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

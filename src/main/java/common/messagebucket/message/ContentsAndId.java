@@ -1,8 +1,11 @@
-package messagebucket.message;
+/*
+package common.messagebucket.message;
 
+*/
 /**
  * Created by andgra on 2015-01-22git s
- */
+ *//*
+
 public class ContentsAndId {
     private final Id id;
     private final Content content;
@@ -25,3 +28,4 @@ public class ContentsAndId {
         return id;
     }
 }
+*/

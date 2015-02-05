@@ -1,10 +1,13 @@
-package messagebucket.message;
+/*
+package common.messagebucket.message;
 
 import java.util.Objects;
 
+*/
 /**
  * Created by andgra on 2015-01-23.
- */
+ *//*
+
 public class Content {
     private final Text text;
     private final Timestamp timestamp;
@@ -39,3 +42,4 @@ public class Content {
     }
 
 }
+*/

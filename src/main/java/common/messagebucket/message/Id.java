@@ -1,4 +1,4 @@
-package messagebucket.message;
+package common.messagebucket.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ public class Id{
 
 
     @JsonCreator
-    public Id(@JsonProperty("id") String id) {
+    public Id(@JsonProperty("id") final String id) {
         this.id = id;
     }
 

@@ -1,4 +1,4 @@
-package chatmaster.subject;
+package common.chatmaster.subject;
 
 import org.junit.Test;
 
