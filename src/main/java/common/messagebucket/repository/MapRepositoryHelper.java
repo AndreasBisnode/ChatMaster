@@ -1,7 +1,7 @@
 package common.messagebucket.repository;
 
-import common.messagebucket.message.ChatMessage;
-import common.messagebucket.message.Id;
+import common.message.ChatMessage;
+import common.message.Id;
 
 import java.util.ArrayList;
 import java.util.List;

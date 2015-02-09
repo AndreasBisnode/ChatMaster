@@ -1,5 +1,5 @@
 /*
-package common.messagebucket.message;
+package common.message;
 
 import java.util.Objects;
 

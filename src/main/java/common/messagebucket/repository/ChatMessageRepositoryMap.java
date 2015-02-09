@@ -1,8 +1,8 @@
 package common.messagebucket.repository;
 
-import common.messagebucket.message.ChatMessage;
-import common.messagebucket.message.Id;
-import common.messagebucket.message.Timestamp;
+import common.message.ChatMessage;
+import common.message.Id;
+import common.message.Timestamp;
 
 import java.time.ZonedDateTime;
 import java.util.*;

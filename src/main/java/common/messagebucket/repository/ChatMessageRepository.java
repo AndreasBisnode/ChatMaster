@@ -1,7 +1,7 @@
 package common.messagebucket.repository;
 
-import common.messagebucket.message.ChatMessage;
-import common.messagebucket.message.Id;
+import common.message.ChatMessage;
+import common.message.Id;
 
 import java.util.Collection;
 
@@ -15,5 +15,5 @@ public interface ChatMessageRepository {
 
     Collection<ChatMessage> retrieveMessages(Id senderId, Id recipientId);
 
-    Collection<ChatMessage> retrieveMessages(Id channelId);
+    Collection<ChatMessage> retrieveMessages(Id userId);
 }

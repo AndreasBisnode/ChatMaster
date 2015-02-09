@@ -3,7 +3,7 @@ package common.chatmaster.service;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
-import common.messagebucket.message.Id;
+import common.message.Id;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,22 +26,26 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
 
     }
     @Override
-    public Optional<User> retrieveUser(Id userId) {
-        return Optional.ofNullable((User)subjectMap.get(userId.id()));
+    public Optional<User> retrieveSubject(Id userId) {
+        try {
+            return Optional.ofNullable((User)subjectMap.get(userId.id()));
+        }catch (ClassCastException e){
+            return Optional.ofNullable(null);
+        }
+        
     }
 
     @Override
-    public Optional<Channel> retrieveChannel(Channel channel) {
-        Id id = channel.id();
-        return Optional.ofNullable((Channel)subjectMap.get(id.id()));
+    public Optional<Channel> retrieveChannel(Id channelId) {
+        return Optional.ofNullable((Channel)subjectMap.get(channelId.id()));
     }
 
     @Override
     // Nästan samma kod i denna och nästa metod. Hur kan man slå ihop dem?
     public Optional<Channel> subscribeChannel(User user,Channel channel) {
         Optional<Channel> returnObject = Optional.ofNullable(null);
-        Optional<Channel> channelInDb = retrieveChannel(channel);
-        Optional<User> userInDb = retrieveUser(user.id());
+        Optional<Channel> channelInDb = retrieveChannel(channel.id());
+        Optional<User> userInDb = retrieveSubject(user.id());
 
         if (itemsExistsInDB(userInDb, channelInDb)){
             userInDb.get().subscribe(channelInDb.get());
@@ -53,8 +57,8 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
     @Override
     public Optional<Channel> unsubscribeChannel(User user, Channel channel) {
         Optional<Channel> returnObject = Optional.ofNullable(null);
-        Optional<Channel> channelInDb = retrieveChannel(channel);
-        Optional<User> userInDb = retrieveUser(user.id());
+        Optional<Channel> channelInDb = retrieveChannel(channel.id());
+        Optional<User> userInDb = retrieveSubject(user.id());
 
         if (itemsExistsInDB(userInDb, channelInDb)){
             userInDb.get().unsubscribe(channelInDb.get());

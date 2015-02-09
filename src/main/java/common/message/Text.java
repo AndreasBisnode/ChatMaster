@@ -1,4 +1,4 @@
-package common.messagebucket.message;
+package common.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ public class Text{
     private final String text;
 
     @JsonCreator
-    public Text(@JsonProperty("id") String text){
+    public Text(@JsonProperty("id")final String text){
         this.text = Objects.requireNonNull(text);
     }
 

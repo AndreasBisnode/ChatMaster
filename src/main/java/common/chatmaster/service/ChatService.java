@@ -2,7 +2,7 @@ package common.chatmaster.service;
 
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.User;
-import common.messagebucket.message.ChatMessage;
+import common.message.ChatMessage;
 
 import java.util.List;
 
