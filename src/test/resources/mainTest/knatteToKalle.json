@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "text": "Hello kalle",
+  "timestamp": {
+    "dateTime": "2008-12-12T06:21:06.879+01:00[Europe/Stockholm]"
+  },
+  "from": {
+    "id": "knatte"
+  },
+  "to": {
+    "id": "kalle"
+  }
+}
