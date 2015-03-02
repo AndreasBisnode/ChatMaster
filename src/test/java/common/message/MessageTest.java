@@ -1,4 +1,4 @@
-package common.messagebucket.message;
+package common.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
