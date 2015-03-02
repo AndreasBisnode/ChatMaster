@@ -26,7 +26,7 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
 
     }
     @Override
-    public Optional<User> retrieveSubject(Id userId) {
+    public Optional<User> retrieveUser(Id userId) {
         try {
             return Optional.ofNullable((User)subjectMap.get(userId.id()));
         }catch (ClassCastException e){
@@ -42,10 +42,10 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
 
     @Override
     // Nästan samma kod i denna och nästa metod. Hur kan man slå ihop dem?
-    public Optional<Channel> subscribeChannel(User user,Channel channel) {
+    public Optional<Channel> subscribeChannel(User user, Channel channel) {
         Optional<Channel> returnObject = Optional.ofNullable(null);
         Optional<Channel> channelInDb = retrieveChannel(channel.id());
-        Optional<User> userInDb = retrieveSubject(user.id());
+        Optional<User> userInDb = retrieveUser(user.id());
 
         if (itemsExistsInDB(userInDb, channelInDb)){
             userInDb.get().subscribe(channelInDb.get());
@@ -58,7 +58,7 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
     public Optional<Channel> unsubscribeChannel(User user, Channel channel) {
         Optional<Channel> returnObject = Optional.ofNullable(null);
         Optional<Channel> channelInDb = retrieveChannel(channel.id());
-        Optional<User> userInDb = retrieveSubject(user.id());
+        Optional<User> userInDb = retrieveUser(user.id());
 
         if (itemsExistsInDB(userInDb, channelInDb)){
             userInDb.get().unsubscribe(channelInDb.get());
@@ -72,10 +72,11 @@ public class ChatAdminServiceMapImplementation implements ChatAdminService {
     }
 
     private Optional<Subject> addSubjectToMap(Subject subject){
-        String id = subject.id().toString();
+        Id id = subject.id();
+        String key = id.toString();
         Optional<Subject> returnobject = Optional.ofNullable(null);
-        if (!subjectMap.containsKey(id)){
-            subjectMap.put(id,subject);
+        if (!subjectMap.containsKey(key)){
+            subjectMap.put(key,subject);
             returnobject = Optional.ofNullable(subject);
         }
         return returnobject;

@@ -2,8 +2,8 @@ package common.messagebucket.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import common.messagebucket.message.ChatMessage;
-import common.messagebucket.message.Id;
+import common.message.ChatMessage;
+import common.message.Id;
 import org.junit.Test;
 
 import java.io.IOException;

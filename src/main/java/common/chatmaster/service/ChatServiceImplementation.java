@@ -1,12 +1,13 @@
 package common.chatmaster.service;
 
 import common.chatmaster.subject.Channel;
-import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
 import common.message.ChatMessage;
 import common.message.Id;
+import common.message.Timestamp;
 import common.messagebucket.repository.ChatMessageRepository;
 
+import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
@@ -21,29 +22,40 @@ public class ChatServiceImplementation implements ChatService {
         this.chatAdminService = chatAdminService;
     }
     @Override
-    public List<ChatMessage> retriveMessages(Channel channel) {
+    public List<ChatMessage> retrieveMessages(Channel channel) {
         return (List<ChatMessage>) chatMessageRepository.retrieveMessages(channel.id());
     }
 
     @Override
-    public List<ChatMessage> retriveMessages(User user) {
-        //retrive messages to and from user
-        Collection messagesToAndFromUsers = chatMessageRepository.retrieveMessages(user.id());
-        Collection subscriptionmessages = getSubscritionMessages(user);
+    public List<ChatMessage> retrieveMessages(User user) {
+        Collection dialogMessages = chatMessageRepository.retrieveMessages(user.id());
+        Collection subscriptionMessages = getSubscritionMessages(user);
+        
+        dialogMessages.addAll(subscriptionMessages);
+        Set<ChatMessage> noDuplicates = new HashSet<ChatMessage>(dialogMessages);
+        List<ChatMessage> messages = new ArrayList<ChatMessage>(noDuplicates);
 
-        messagesToAndFromUsers.addAll(subscriptionmessages);
-        Set<ChatMessage> set = new HashSet<ChatMessage>(messagesToAndFromUsers);
-        
-        return (List<ChatMessage>) new ArrayList<ChatMessage>(set);
-        
-        
+        Collections.sort(messages, new Comparator<ChatMessage>() {
+            @Override
+            public int compare(ChatMessage o1, ChatMessage o2) {
+                Timestamp thisTimeStamp = o1.timestamp();
+                Timestamp thatTimeStamp = o2.timestamp();
+                String thisZonedDateTimeString = thisTimeStamp.zonedDateTime();
+                String thatZonedDateTimeString = thatTimeStamp.zonedDateTime();
+                ZonedDateTime thisZonedDatetime = ZonedDateTime.parse(thisZonedDateTimeString);
+                ZonedDateTime thatZonedDatetime = ZonedDateTime.parse(thatZonedDateTimeString);
+                return (thisZonedDatetime.compareTo(thatZonedDatetime));
+            }
+        });
+        Collections.reverse(messages);
+        return messages;
     }
 
     private Collection getSubscritionMessages(User user) {
         List<Channel> channels = user.subscriptions();
         List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
         for(Channel channel: channels){
-            chatMessages.addAll(retriveMessages(channel));
+            chatMessages.addAll(retrieveMessages(channel));
         }
         return chatMessages;
     }
@@ -51,15 +63,11 @@ public class ChatServiceImplementation implements ChatService {
     @Override
     public ChatMessage sendMessage(ChatMessage chatMessage) {
         ChatMessage returnobject = null;
-       
-        //endpointsExists fungerar ej måste fixas till
+        
           if (endpointsExist(chatMessage)){
               chatMessageRepository.save(chatMessage);
               returnobject = chatMessage;
-            
             }
-                
-            
         
         return returnobject;
     }
@@ -67,14 +75,18 @@ public class ChatServiceImplementation implements ChatService {
     private boolean endpointsExist(ChatMessage chatMessage) {
         Id sender = chatMessage.from();
         Id receiver = chatMessage.to();
-        // to is a channel
-        
-        if(chatAdminService.retrieveSubject(sender).isPresent() || chatAdminService.retrieveChannel(sender).isPresent()){
-            if(chatAdminService.retrieveSubject(receiver).isPresent() || chatAdminService.retrieveChannel(receiver).isPresent()){
-                return true;
-            }
+       
+        if(senderIsPresent(sender) && receiverIsPresent(receiver)){
+            return true;
         }
         return false;
+    }
 
+    private boolean receiverIsPresent(Id receiver) {
+        return chatAdminService.retrieveUser(receiver).isPresent() || chatAdminService.retrieveChannel(receiver).isPresent();
+    }
+
+    private boolean senderIsPresent(Id sender) {
+        return chatAdminService.retrieveUser(sender).isPresent() || chatAdminService.retrieveChannel(sender).isPresent();
     }
 }

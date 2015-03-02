@@ -4,8 +4,8 @@ import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import common.messagebucket.message.ChatMessage;
-import common.messagebucket.message.Id;
+import common.message.ChatMessage;
+import common.message.Id;
 import common.messagebucket.repository.ChatMessageRepositoryMap;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +28,10 @@ public class ChatMasterTest {
     @Before
     public void setup(){
         chatAdminService = new ChatAdminServiceMapImplementation();
-        user1 = new User("id 1","user1","user@mail");
-        user2 = new User("id 3","user2","user@mail");
-        channel1 = new Channel("id 2","channel1");
-        channel2 = new Channel("id 4","channel2");
+        user1 = new User(new Id("id 1"),"user1","user@mail");
+        user2 = new User(new Id("id 3"),"user2","user@mail");
+        channel1 = new Channel(new Id("id 2"),"channel1");
+        channel2 = new Channel(new Id("id 4"),"channel2");
 
     }
     @Test
@@ -47,8 +47,8 @@ public class ChatMasterTest {
         assertEquals(user1, chatAdminService.retrieveUser(user1.id()).get());
         assertEquals(false, chatAdminService.retrieveUser(user2.id()).isPresent());
 
-        assertEquals(channel1, chatAdminService.retrieveChannel(channel1).get());
-        assertEquals(false, chatAdminService.retrieveChannel(channel2).isPresent());
+        assertEquals(channel1, chatAdminService.retrieveChannel(channel1.id()).get());
+        assertEquals(false, chatAdminService.retrieveChannel(channel2.id()).isPresent());
 
         assertEquals(channel1, chatAdminService.subscribeChannel(user1, channel1).get());
         assertEquals(false, chatAdminService.subscribeChannel(user1, channel2).isPresent());
@@ -73,8 +73,8 @@ public class ChatMasterTest {
          originalJson = mapper.readTree(resourceAsStream);
          ChatMessage chatMessage5 = mapper.readValue(originalJson.toString(), ChatMessage.class);
 
-        chatAdminService.addUser(new User("id-of-the-sender", "d", "d"));
-        chatAdminService.addUser(new User("id-of-the-recipient", "d", "d"));
+        chatAdminService.addUser(new User(new Id("id-of-the-sender"), "d", "d"));
+        chatAdminService.addUser(new User(new Id("id-of-the-recipient"), "d", "d"));
 
         ChatService chatService = new ChatServiceImplementation(new ChatMessageRepositoryMap(), chatAdminService);
 
@@ -85,6 +85,6 @@ public class ChatMasterTest {
 
 
 
-        assertEquals(chatService.retriveMessages(new User("id-of-the-sender", "dsd", "sdfdf")).size(),2 );
+        assertEquals(chatService.retrieveMessages(new User(new Id("id-of-the-sender"), "dsd", "sdfdf")).size(), 2);
     }
 }

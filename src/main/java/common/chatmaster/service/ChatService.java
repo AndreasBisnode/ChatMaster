@@ -10,8 +10,8 @@ import java.util.List;
  * Created by andgra on 2015-01-29.
  */
 public interface ChatService {
-    public List<ChatMessage> retriveMessages(Channel channel);
-    public List<ChatMessage> retriveMessages(User user);
+    public List<ChatMessage> retrieveMessages(Channel channel);
+    public List<ChatMessage> retrieveMessages(User user);
     public ChatMessage sendMessage(ChatMessage chatMessage);
 
 }
