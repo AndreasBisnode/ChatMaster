@@ -36,9 +36,6 @@
             <artifactId>spring-context</artifactId>
             <version>2.5.6</version>
         </dependency>
-
-
-
     </dependencies>
 
     <packaging>jar</packaging>

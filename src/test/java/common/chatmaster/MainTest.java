@@ -3,16 +3,14 @@ package common.chatmaster;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.chatmaster.service.ChatAdminService;
-import common.chatmaster.service.ChatAdminServiceMapImplementation;
 import common.chatmaster.service.ChatService;
-import common.chatmaster.service.ChatServiceImplementation;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.SubjectFactory;
 import common.chatmaster.subject.User;
 import common.message.ChatMessage;
-import common.messagebucket.repository.ChatMessageRepository;
-import common.messagebucket.repository.ChatMessageRepositoryMap;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,21 +23,23 @@ import static org.junit.Assert.assertEquals;
 public class MainTest {
     @Test
     public void mainTest() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        ChatMessageRepository chatMessageRepository = new ChatMessageRepositoryMap();
-        ChatAdminService chatAdminService = new ChatAdminServiceMapImplementation();
-        ChatService chatService = new ChatServiceImplementation(chatMessageRepository, chatAdminService);
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/application-context.xml");
+        ChatAdminService chatAdminService = (ChatAdminService) applicationContext.getBean("chatAdminService");
+        ChatService chatService = (ChatService) applicationContext.getBean("chatService");
+        ObjectMapper mapper = (ObjectMapper) applicationContext.getBean("objectMapper");
+
+
         InputStream resourceAsStream;
         JsonNode originalJson;
         
         
-        //Lägg upp användare
+        //Create users
         User knatte = SubjectFactory.createUser("knatte", "knatte@mail.com");
         User fnatte = SubjectFactory.createUser("fnatte", "fnatte@mail.com");
         User tjatte = SubjectFactory.createUser("tjnatte", "tjatte@mail.com");
         User kalle = SubjectFactory.createUser("kalle", "kalle@mail.com");
         User kajsa = SubjectFactory.createUser("kajsa", "kajsa@mail.com");
-        //Kanaler
+        //Channels
         Channel all = SubjectFactory.createChannel("all");
         Channel children = SubjectFactory.createChannel("children");
         
