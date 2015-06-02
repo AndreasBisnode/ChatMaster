@@ -1,5 +1,6 @@
-package common.chatmaster.service;
+package common.chatmaster.service.Impl;
 
+import common.chatmaster.service.ChatAdminService;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
@@ -12,7 +13,7 @@ import java.util.Optional;
 /**
  * Created by andgra on 2015-01-28.
  */
-public class ChatAdminServiceMapImplementation implements ChatAdminService {
+public class ChatAdminServiceMapImpl implements ChatAdminService {
     private final Map<String, Subject> subjectMap = new HashMap<>();
 
     @Override

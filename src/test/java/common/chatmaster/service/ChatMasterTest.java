@@ -1,5 +1,7 @@
 package common.chatmaster.service;
 
+import common.chatmaster.service.Impl.ChatAdminServiceMapImpl;
+import common.chatmaster.service.Impl.ChatServiceImpl;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,7 +29,7 @@ public class ChatMasterTest {
     Channel channel2;
     @Before
     public void setup(){
-        chatAdminService = new ChatAdminServiceMapImplementation();
+        chatAdminService = new ChatAdminServiceMapImpl();
         user1 = new User(new Id("id 1"),"user1","user@mail");
         user2 = new User(new Id("id 3"),"user2","user@mail");
         channel1 = new Channel(new Id("id 2"),"channel1");
@@ -76,7 +78,7 @@ public class ChatMasterTest {
         chatAdminService.addUser(new User(new Id("id-of-the-sender"), "d", "d"));
         chatAdminService.addUser(new User(new Id("id-of-the-recipient"), "d", "d"));
 
-        ChatService chatService = new ChatServiceImplementation(new ChatMessageRepositoryMap(), chatAdminService);
+        ChatService chatService = new ChatServiceImpl(new ChatMessageRepositoryMap(), chatAdminService);
 
         assertEquals(chatMessage, chatService.sendMessage(chatMessage));
         assertEquals(chatMessage5, chatService.sendMessage(chatMessage5));

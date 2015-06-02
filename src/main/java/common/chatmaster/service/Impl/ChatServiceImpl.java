@@ -1,5 +1,7 @@
-package common.chatmaster.service;
+package common.chatmaster.service.Impl;
 
+import common.chatmaster.service.ChatAdminService;
+import common.chatmaster.service.ChatService;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.User;
 import common.message.ChatMessage;
@@ -13,11 +15,11 @@ import java.util.*;
 /**
  * Created by andgra on 2015-01-29.
  */
-public class ChatServiceImplementation implements ChatService {
+public class ChatServiceImpl implements ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatAdminService chatAdminService;
 
-    public ChatServiceImplementation(ChatMessageRepository chatMessageRepository, ChatAdminService chatAdminService){
+    public ChatServiceImpl(ChatMessageRepository chatMessageRepository, ChatAdminService chatAdminService){
         this.chatMessageRepository = chatMessageRepository;
         this.chatAdminService = chatAdminService;
     }
