@@ -1,5 +1,4 @@
 package common.chatmaster;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.chatmaster.service.ChatAdminService;
@@ -7,10 +6,11 @@ import common.chatmaster.service.ChatService;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.SubjectFactory;
 import common.chatmaster.subject.User;
+import common.config.AppConfig;
 import common.message.ChatMessage;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +23,10 @@ import static org.junit.Assert.assertEquals;
 public class MainTest {
     @Test
     public void mainTest() throws IOException {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/application-context.xml");
-        ChatAdminService chatAdminService = (ChatAdminService) applicationContext.getBean("chatAdminService");
-        ChatService chatService = (ChatService) applicationContext.getBean("chatService");
-        ObjectMapper mapper = (ObjectMapper) applicationContext.getBean("objectMapper");
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        ChatAdminService chatAdminService = (ChatAdminService) ctx.getBean("chatAdminService");
+        ChatService chatService = (ChatService) ctx.getBean("chatService");
+        ObjectMapper mapper = (ObjectMapper) ctx.getBean("objectMapper");
 
 
         InputStream resourceAsStream;
