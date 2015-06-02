@@ -9,8 +9,6 @@ import common.message.Id;
 import common.messagebucket.repository.ChatMessageRepositoryMap;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,10 +25,8 @@ public class ChatMasterTest {
     ChatAdminService chatAdminService;
     Channel channel1;
     Channel channel2;
-    ApplicationContext applicationContext;
     @Before
     public void setup(){
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/application-context.xml");
         chatAdminService = new ChatAdminServiceMapImplementation();
         user1 = new User(new Id("id 1"),"user1","user@mail");
         user2 = new User(new Id("id 3"),"user2","user@mail");
@@ -65,7 +61,7 @@ public class ChatMasterTest {
     }
     @Test
     public void ChatServiceTest() throws IOException {
-        ObjectMapper mapper = (ObjectMapper) applicationContext.getBean("objectMapper");
+        ObjectMapper mapper = new ObjectMapper();
         InputStream resourceAsStream = getClass().getResourceAsStream("/message.json");
         JsonNode originalJson = mapper.readTree(resourceAsStream);
         ChatMessage chatMessage = mapper.readValue(originalJson.toString(), ChatMessage.class);

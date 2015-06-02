@@ -28,14 +28,14 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public List<ChatMessage> retrieveMessages(User user) {
-        Collection dialogMessages = chatMessageRepository.retrieveMessages(user.id());
-        Collection subscriptionMessages = getSubscritionMessages(user);
+        Collection<ChatMessage> dialogMessages = chatMessageRepository.retrieveMessages(user.id());
+        Collection<ChatMessage> subscriptionMessages = getSubscritionMessages(user);
         
         dialogMessages.addAll(subscriptionMessages);
         Set<ChatMessage> noDuplicates = new HashSet<ChatMessage>(dialogMessages);
         List<ChatMessage> messages = new ArrayList<ChatMessage>(noDuplicates);
 
-        Collections.sort(messages, new Comparator<ChatMessage>() {
+        messages.sort(new Comparator<ChatMessage>() {
             @Override
             public int compare(ChatMessage o1, ChatMessage o2) {
                 Timestamp thisTimeStamp = o1.timestamp();
@@ -46,12 +46,11 @@ public class ChatServiceImplementation implements ChatService {
                 ZonedDateTime thatZonedDatetime = ZonedDateTime.parse(thatZonedDateTimeString);
                 return (thisZonedDatetime.compareTo(thatZonedDatetime));
             }
-        });
-        Collections.reverse(messages);
+        }.reversed());
         return messages;
     }
 
-    private Collection getSubscritionMessages(User user) {
+    private Collection<ChatMessage> getSubscritionMessages(User user) {
         List<Channel> channels = user.subscriptions();
         List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
         for(Channel channel: channels){
