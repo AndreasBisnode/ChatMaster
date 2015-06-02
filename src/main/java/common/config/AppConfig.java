@@ -4,9 +4,9 @@ package common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.chatmaster.service.ChatAdminService;
-import common.chatmaster.service.ChatAdminServiceMapImplementation;
+import common.chatmaster.service.Impl.ChatAdminServiceMapImpl;
 import common.chatmaster.service.ChatService;
-import common.chatmaster.service.ChatServiceImplementation;
+import common.chatmaster.service.Impl.ChatServiceImpl;
 import common.messagebucket.repository.ChatMessageRepository;
 import common.messagebucket.repository.ChatMessageRepositoryMap;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +23,11 @@ public class AppConfig {
     }
     @Bean
     public ChatAdminService chatAdminService(){
-        return new ChatAdminServiceMapImplementation();
+        return new ChatAdminServiceMapImpl();
     }
     @Bean
     public ChatService chatService(){
-        return new ChatServiceImplementation(chatMessageRepository(), chatAdminService());
+        return new ChatServiceImpl(chatMessageRepository(), chatAdminService());
     }
     @Bean
     public ObjectMapper objectMapper(){
