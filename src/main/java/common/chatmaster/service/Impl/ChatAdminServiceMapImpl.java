@@ -5,7 +5,12 @@ import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
 import common.message.Id;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +18,7 @@ import java.util.Optional;
 /**
  * Created by andgra on 2015-01-28.
  */
+@Controller
 public class ChatAdminServiceMapImpl implements ChatAdminService {
     private final Map<String, Subject> subjectMap = new HashMap<>();
 
@@ -42,7 +48,6 @@ public class ChatAdminServiceMapImpl implements ChatAdminService {
     }
 
     @Override
-    // Nästan samma kod i denna och nästa metod. Hur kan man slå ihop dem?
     public Optional<Channel> subscribeChannel(User user, Channel channel) {
         Optional<Channel> returnObject = Optional.ofNullable(null);
         Optional<Channel> channelInDb = retrieveChannel(channel.id());

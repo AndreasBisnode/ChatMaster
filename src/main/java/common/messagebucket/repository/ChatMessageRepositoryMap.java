@@ -3,6 +3,8 @@ package common.messagebucket.repository;
 import common.message.ChatMessage;
 import common.message.Id;
 import common.message.Timestamp;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -10,6 +12,8 @@ import java.util.*;
 /**
  * Created by andgra on 2014-12-28.
  */
+@Service
+@Repository
 public class ChatMessageRepositoryMap implements ChatMessageRepository {
     private final Map<String, ChatMessage> chatMessageMap = new HashMap<>();
     @Override

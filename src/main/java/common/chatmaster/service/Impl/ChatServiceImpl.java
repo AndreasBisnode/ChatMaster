@@ -8,17 +8,26 @@ import common.message.ChatMessage;
 import common.message.Id;
 import common.message.Timestamp;
 import common.messagebucket.repository.ChatMessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
  * Created by andgra on 2015-01-29.
  */
+@Component
 public class ChatServiceImpl implements ChatService {
+
     private final ChatMessageRepository chatMessageRepository;
+
     private final ChatAdminService chatAdminService;
 
+
+    @Autowired
     public ChatServiceImpl(ChatMessageRepository chatMessageRepository, ChatAdminService chatAdminService){
         this.chatMessageRepository = chatMessageRepository;
         this.chatAdminService = chatAdminService;
