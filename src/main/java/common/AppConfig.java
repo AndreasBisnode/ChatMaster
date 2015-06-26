@@ -9,11 +9,12 @@ import common.messagebucket.repository.ChatMessageRepository;
 import common.messagebucket.repository.ChatMessageRepositoryMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 
-
+@ComponentScan(basePackages = "common")
 @Configuration
 public class AppConfig {
 

@@ -11,6 +11,7 @@ import common.messagebucket.repository.ChatMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
@@ -19,7 +20,7 @@ import java.util.*;
 /**
  * Created by andgra on 2015-01-29.
  */
-@Component
+@Service
 public class ChatServiceImpl implements ChatService {
 
     private final ChatMessageRepository chatMessageRepository;

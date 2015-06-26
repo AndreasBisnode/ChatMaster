@@ -1,6 +1,7 @@
 package common.chatmaster.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.AppConfig;
 import common.chatmaster.service.ChatAdminService;
 import common.chatmaster.service.ChatService;
 import common.chatmaster.subject.Channel;
@@ -28,10 +29,19 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/config.xml"})
+@ContextConfiguration(classes = {AppConfig.class})
 
 @Controller
 public class MainTest {
+
+    User knatte;
+    User fnatte;
+    User tjatte;
+    User kalle;
+    User kajsa;
+    //Channels
+    Channel all;
+    Channel children;
 
 
 
@@ -42,20 +52,25 @@ public class MainTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @PostConstruct
+    public void initSubjects(){
+        knatte = SubjectFactory.createUser("knatte", "knatte@mail.com");
+        fnatte = SubjectFactory.createUser("fnatte", "fnatte@mail.com");
+        tjatte = SubjectFactory.createUser("tjnatte", "tjatte@mail.com");
+        kalle = SubjectFactory.createUser("kalle", "kalle@mail.com");
+        kajsa = SubjectFactory.createUser("kajsa", "kajsa@mail.com");
+        //Channels
+        all = SubjectFactory.createChannel("all");
+        children = SubjectFactory.createChannel("children");
+
+    }
 
     @Test
     public void mainTest() throws IOException {
         InputStream resourceAsStream;
         JsonNode originalJson;
-        //Create users
-        User knatte = SubjectFactory.createUser("knatte", "knatte@mail.com");
-        User fnatte = SubjectFactory.createUser("fnatte", "fnatte@mail.com");
-        User tjatte = SubjectFactory.createUser("tjnatte", "tjatte@mail.com");
-        User kalle = SubjectFactory.createUser("kalle", "kalle@mail.com");
-        User kajsa = SubjectFactory.createUser("kajsa", "kajsa@mail.com");
-        //Channels
-        Channel all = SubjectFactory.createChannel("all");
-        Channel children = SubjectFactory.createChannel("children");
+
+
         
         chatAdminService.addUser(knatte);
         chatAdminService.addUser(fnatte);
@@ -74,7 +89,7 @@ public class MainTest {
         chatAdminService.subscribeChannel(tjatte, children);
         chatAdminService.subscribeChannel(kalle, all);
         chatAdminService.subscribeChannel(kajsa, all);
-                
+
         //chatmessages
         resourceAsStream = getClass().getResourceAsStream("/mainTest/knatteToKalle.json");
         originalJson = mapper.readTree(resourceAsStream);

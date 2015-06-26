@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by andgra on 2014-12-28.
  */
-@Component
+
 @Repository
 public class ChatMessageRepositoryMap implements ChatMessageRepository {
     private final Map<String, ChatMessage> chatMessageMap = new HashMap<>();
@@ -23,18 +23,18 @@ public class ChatMessageRepositoryMap implements ChatMessageRepository {
     }
 
     @Override
-    public ChatMessage retrieveMessageById(Id id) {
+    public final ChatMessage retrieveMessageById(final Id id) {
         return chatMessageMap.get(id.id());
     }
 
     @Override
-    public Collection<ChatMessage> retrieveMessages(Id channelId) {
+    public Collection<ChatMessage> retrieveMessages(final Id channelId) {
         return retrieveMessages(null, channelId);
     }
 
     @Override
-    public Collection<ChatMessage> retrieveMessages(Id senderId, Id recipientId) {
-        List <ChatMessage> messages = MapRepositoryHelper.retrieveMessagesFromRepository(chatMessageMap, Optional.ofNullable(senderId), recipientId);
+    public Collection<ChatMessage> retrieveMessages(final Id senderId, final Id recipientId) {
+        final List <ChatMessage> messages = MapRepositoryHelper.retrieveMessagesFromRepository(chatMessageMap, Optional.ofNullable(senderId), recipientId);
         Collections.sort(messages, new Comparator<ChatMessage>() {
             @Override
             public int compare(ChatMessage o1, ChatMessage o2) {
