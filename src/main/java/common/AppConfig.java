@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service
+@Configuration
 public class AppConfig {
 
     @Bean

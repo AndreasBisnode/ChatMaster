@@ -42,6 +42,7 @@ public class MainTest {
     @Autowired
     private ObjectMapper mapper;
 
+
     @Test
     public void mainTest() throws IOException {
         InputStream resourceAsStream;
