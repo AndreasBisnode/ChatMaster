@@ -29,6 +29,18 @@ public class ChatMessage {
         this.from = from;
         this.to = to;
     }
+    //@Todo ska jag ha två constructorer?
+    public ChatMessage(
+            final String text,
+            final Id from,
+            final Id to) {
+        this.text = new Text(text);
+        this.dateTime = new Timestamp();
+        this.id = new Id(this.dateTime.toString());
+        this.from = from;
+        this.to = to;
+    }
+
 
     @JsonUnwrapped  @JsonProperty("id")
     public Id id() {

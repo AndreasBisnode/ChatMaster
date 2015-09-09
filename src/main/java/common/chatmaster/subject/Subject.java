@@ -2,14 +2,17 @@ package common.chatmaster.subject;
 
 import common.message.Id;
 
-import java.io.Serializable;
-
 /**
  * Created by andgra on 2015-01-28.
  */
-public class Subject implements Serializable{
+public class Subject {
     private final Id id;
     private final String name;
+
+    public String getName() {
+        return name;
+    }
+
     public Subject(final Id id,final String name){
         this.id = id;
         this.name = name;

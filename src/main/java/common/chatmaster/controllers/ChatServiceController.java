@@ -56,12 +56,11 @@ public class ChatServiceController {
 
     }
 
-    public ChatMessage sendMessage(final Id id,
-                                   final Text text,
-                                   final Timestamp dateTime,
-                                   final Id from,
-                                   final Id to) {
-
+    @RequestMapping(value = "/messages", method = RequestMethod.POST)
+    public ChatMessage sendMessage(final String text,
+                                   final String from,
+                                   final String to) {
+        ChatMessage chatMessage = new ChatMessage(text, new Id(from), new Id(to));
+        return chatService.sendMessage(chatMessage);
     }
-
 }

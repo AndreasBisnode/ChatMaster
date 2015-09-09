@@ -32,4 +32,13 @@ public final class User extends Subject{
     public List<Channel> subscriptions(){
         return subscriptions;
     }
+
+    public List<Channel> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public String getEmail() {
+
+        return email;
+    }
 }

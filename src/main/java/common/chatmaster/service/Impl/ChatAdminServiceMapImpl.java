@@ -29,46 +29,52 @@ public class ChatAdminServiceMapImpl implements ChatAdminService {
         return addSubjectToMap(channel);
 
     }
+
     @Override
     public Optional<User> retrieveUser(Id userId) {
         try {
-            return Optional.ofNullable((User)subjectMap.get(userId.id()));
-        }catch (ClassCastException e){
+            return Optional.ofNullable((User) subjectMap.get(userId.id()));
+        } catch (ClassCastException e) {
             return Optional.ofNullable(null);
         }
-        
+
     }
 
     @Override
     public Optional<Channel> retrieveChannel(Id channelId) {
-        return Optional.ofNullable((Channel)subjectMap.get(channelId.id()));
-    }
-
-    @Override
-    public Optional<Channel> subscribeChannel(User user, Channel channel) {
-        Optional<Channel> returnObject = Optional.ofNullable(null);
-        Optional<Channel> channelInDb = retrieveChannel(channel.id());
-        Optional<User> userInDb = retrieveUser(user.id());
-
-        if (itemsExistsInDB(userInDb, channelInDb)){
-            userInDb.get().subscribe(channelInDb.get());
-            returnObject = channelInDb;
+        try {
+            return Optional.ofNullable((Channel) subjectMap.get(channelId.id()));
+        } catch (ClassCastException e) {
+            return Optional.ofNullable(null);
         }
-        return returnObject;
     }
 
-    @Override
-    public Optional<Channel> unsubscribeChannel(User user, Channel channel) {
-        Optional<Channel> returnObject = Optional.ofNullable(null);
-        Optional<Channel> channelInDb = retrieveChannel(channel.id());
-        Optional<User> userInDb = retrieveUser(user.id());
 
-        if (itemsExistsInDB(userInDb, channelInDb)){
-            userInDb.get().unsubscribe(channelInDb.get());
-            returnObject = channelInDb;
+        @Override
+        public Optional<Channel> subscribeChannel (User user, Channel channel){
+            Optional<Channel> returnObject = Optional.ofNullable(null);
+            Optional<Channel> channelInDb = retrieveChannel(channel.id());
+            Optional<User> userInDb = retrieveUser(user.id());
+
+            if (itemsExistsInDB(userInDb, channelInDb)) {
+                userInDb.get().subscribe(channelInDb.get());
+                returnObject = channelInDb;
+            }
+            return returnObject;
         }
-        return returnObject;
-    }
+
+        @Override
+        public Optional<Channel> unsubscribeChannel (User user, Channel channel){
+            Optional<Channel> returnObject = Optional.ofNullable(null);
+            Optional<Channel> channelInDb = retrieveChannel(channel.id());
+            Optional<User> userInDb = retrieveUser(user.id());
+
+            if (itemsExistsInDB(userInDb, channelInDb)) {
+                userInDb.get().unsubscribe(channelInDb.get());
+                returnObject = channelInDb;
+            }
+            return returnObject;
+        }
 
     private boolean itemsExistsInDB(Optional<User> user, Optional<Channel> channel) {
         return user.isPresent() && channel.isPresent();
@@ -79,11 +85,11 @@ public class ChatAdminServiceMapImpl implements ChatAdminService {
         Id id = subject.id();
         String key = id.toString();
         Optional<Subject> returnobject = Optional.ofNullable(null);
-        if (subjectMap.containsKey(key)){
+        if (subjectMap.containsKey(key)) {
             throw new ResourceAlreadyExistsException("A subject with this Id allready exists!");
         }
-        if (!subjectMap.containsKey(key)){
-            subjectMap.put(key,subject);
+        if (!subjectMap.containsKey(key)) {
+            subjectMap.put(key, subject);
             returnobject = Optional.ofNullable(subject);
         }
         return returnobject;

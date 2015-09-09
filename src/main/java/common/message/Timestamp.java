@@ -10,6 +10,9 @@ import java.util.Objects;
  */
 public class Timestamp {
     private final ZonedDateTime dateTime;
+    public Timestamp(){
+        this.dateTime = ZonedDateTime.now();
+    }
     public Timestamp(@JsonProperty("dateTime") String dateTime){
         this.dateTime = ZonedDateTime.parse(dateTime);
     }

@@ -8,6 +8,7 @@ import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
 import common.message.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,17 @@ public class ChatAdminServiceController {
         } catch (ResourceAlreadyExistsException e) {
             throw new ResourceAlreadyExistsException(e.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public User retrieveUser(@PathVariable("id")String id) {
+        Optional<User> user = chatAdminService.retrieveUser(new Id(id));
+        if(!user.isPresent()){
+            throw new ResourceNotFoundException("User does not exist");
+        }
+        return user.get();
+
     }
 
     @RequestMapping(value = "/channels", method = RequestMethod.POST)
