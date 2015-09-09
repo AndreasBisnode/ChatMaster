@@ -5,6 +5,7 @@ import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
 import common.message.Id;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 import java.util.Optional;
 
