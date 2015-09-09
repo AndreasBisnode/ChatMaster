@@ -2,8 +2,7 @@ package common.chatmaster.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.AppConfig;
-import common.chatmaster.service.ChatAdminService;
-import common.chatmaster.service.ChatService;
+import common.chatmaster.exception.ResourceAlreadyExistsException;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.SubjectFactory;
 import common.chatmaster.subject.User;
@@ -12,8 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -66,7 +63,7 @@ public class MainTest {
     }
 
     @Test
-    public void mainTest() throws IOException {
+    public void mainTest() throws IOException, ResourceAlreadyExistsException {
         InputStream resourceAsStream;
         JsonNode originalJson;
 

@@ -1,16 +1,13 @@
 package common.chatmaster.service.Impl;
 
+import common.chatmaster.exception.ResourceAlreadyExistsException;
 import common.chatmaster.service.ChatAdminService;
 import common.chatmaster.subject.Channel;
 import common.chatmaster.subject.Subject;
 import common.chatmaster.subject.User;
 import common.message.Id;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,12 +20,12 @@ public class ChatAdminServiceMapImpl implements ChatAdminService {
     private final Map<String, Subject> subjectMap = new HashMap<>();
 
     @Override
-    public Optional<Subject> addUser(User user) {
+    public Optional<Subject> addUser(User user) throws ResourceAlreadyExistsException {
         return addSubjectToMap(user);
     }
 
     @Override
-    public Optional<Subject> addChannel(Channel channel) {
+    public Optional<Subject> addChannel(Channel channel) throws ResourceAlreadyExistsException {
         return addSubjectToMap(channel);
 
     }
@@ -77,10 +74,14 @@ public class ChatAdminServiceMapImpl implements ChatAdminService {
         return user.isPresent() && channel.isPresent();
     }
 
-    private Optional<Subject> addSubjectToMap(Subject subject){
+    //Item already exists
+    private Optional<Subject> addSubjectToMap(Subject subject) throws ResourceAlreadyExistsException {
         Id id = subject.id();
         String key = id.toString();
         Optional<Subject> returnobject = Optional.ofNullable(null);
+        if (subjectMap.containsKey(key)){
+            throw new ResourceAlreadyExistsException("A subject with this Id allready exists!");
+        }
         if (!subjectMap.containsKey(key)){
             subjectMap.put(key,subject);
             returnobject = Optional.ofNullable(subject);

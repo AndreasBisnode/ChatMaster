@@ -29,7 +29,7 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Autowired
-    public ChatServiceImpl(ChatMessageRepository chatMessageRepository, ChatAdminService chatAdminService){
+    public ChatServiceImpl(final ChatMessageRepository chatMessageRepository, final ChatAdminService chatAdminService){
         this.chatMessageRepository = chatMessageRepository;
         this.chatAdminService = chatAdminService;
     }

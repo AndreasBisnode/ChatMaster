@@ -1,5 +1,6 @@
 package common.chatmaster.service;
 
+import common.chatmaster.exception.ResourceAlreadyExistsException;
 import common.chatmaster.service.Impl.ChatAdminServiceMapImpl;
 import common.chatmaster.service.Impl.ChatServiceImpl;
 import common.chatmaster.subject.Channel;
@@ -37,7 +38,7 @@ public class ChatMasterTest {
 
     }
     @Test
-    public void ChatAdminServiceTest(){
+    public void ChatAdminServiceTest() throws ResourceAlreadyExistsException {
 
 
         assertEquals(user1, chatAdminService.addUser(user1).get());
@@ -62,7 +63,7 @@ public class ChatMasterTest {
 
     }
     @Test
-    public void ChatServiceTest() throws IOException {
+    public void ChatServiceTest() throws IOException, ResourceAlreadyExistsException {
         ObjectMapper mapper = new ObjectMapper();
         InputStream resourceAsStream = getClass().getResourceAsStream("/message.json");
         JsonNode originalJson = mapper.readTree(resourceAsStream);
