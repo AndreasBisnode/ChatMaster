@@ -22,7 +22,8 @@ public final class User extends Subject{
     }
     
     public Channel subscribe(Channel channel){
-        subscriptions.add(channel);
+        if(!subscriptions.contains(channel))
+            subscriptions.add(channel);
         return channel;
     }
     public Channel unsubscribe(Channel channel){
